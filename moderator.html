@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatSafe — Moderator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+<header>
+<h2>Moderator Dashboard</h2>
+<button id="back">Back to Chat</button>
+</header>
+<section class="card">
+<h3>Flagged Messages</h3>
+<div id="flaggedList"></div>
+</section>
+</div>
+<script>
+const user = JSON.parse(sessionStorage.getItem("chatUser")||"{}");
+if(user.role!=="moderator") location.href="/";
+
+async function loadFlagged(){
+  const res = await fetch("/api/flagged");
+  const flagged = await res.json();
+  const list = document.getElementById("flaggedList");
+  list.innerHTML = flagged.map(f=>`<div class="flag-item">
+    <b>${f.message.username}</b> <span class="time">${new Date(f.message.createdAt).toLocaleString()}</span>
+    <div>${escapeHtml(f.message.text)}</div>
+    <div class="actions">
+      <button onclick="action('${f.id}','delete')">Delete</button>
+      <button onclick="action('${f.id}','ignore')">Approve</button>
+      <button onclick="action('${f.id}','ban')">Ban</button>
+    </div>
+  </div>`).join("");
+}
+
+async function action(id,act){await fetch("/api/flagged/"+id+"/action",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action:act})});loadFlagged();}
+
+document.getElementById("back").addEventListener("click",()=>location.href="/chat.html");
+
+function escapeHtml(unsafe){return unsafe.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m]);}
+
+loadFlagged();
+</script>
+</body>
+</html>

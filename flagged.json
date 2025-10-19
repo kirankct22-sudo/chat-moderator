@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1760854465040.5295,
+    "message": {
+      "id": 1760854465040.487,
+      "username": "Admin",
+      "text": "spam",
+      "createdAt": "2025-10-19T06:14:25.040Z"
+    },
+    "reason": "spam"
+  },
+  {
+    "id": 1760854486235.7427,
+    "message": {
+      "id": 1760854486235.122,
+      "username": "Admin",
+      "text": "i hate u",
+      "createdAt": "2025-10-19T06:14:46.235Z"
+    },
+    "reason": "hate"
+  },
+  {
+    "id": 1760854515369.7468,
+    "message": {
+      "id": 1760854515369.244,
+      "username": "Admin",
+      "text": "i hate u",
+      "createdAt": "2025-10-19T06:15:15.369Z"
+    },
+    "reason": "hate"
+  },
+  {
+    "id": 1760854633408.9365,
+    "message": {
+      "id": 1760854633408.676,
+      "username": "Admin",
+      "text": "i hate",
+      "createdAt": "2025-10-19T06:17:13.408Z"
+    },
+    "reason": "hate"
+  },
+  {
+    "id": 1760854664327.9265,
+    "message": {
+      "id": 1760854664327.9062,
+      "username": "Admin",
+      "text": "hate",
+      "createdAt": "2025-10-19T06:17:44.327Z"
+    },
+    "reason": "hate"
+  }
+]

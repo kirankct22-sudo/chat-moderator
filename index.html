@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatSafe — Login</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="center">
+<h1>ChatSafe</h1>
+<form id="loginForm">
+  <input id="username" placeholder="Username" required />
+  <select id="role">
+    <option value="user">User</option>
+    <option value="moderator">Moderator</option>
+  </select>
+  <button type="submit">Enter</button>
+</form>
+<p class="muted">No password for demo. Choose moderator to access moderator dashboard.</p>
+</main>
+<script>
+const form = document.getElementById("loginForm");
+form.addEventListener("submit", async e=>{
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const role = document.getElementById("role").value;
+  const res = await fetch("/api/login",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({username,role})});
+  const user = await res.json();
+  sessionStorage.setItem("chatUser",JSON.stringify(user));
+  if(user.role==="moderator") location.href="/moderator.html";
+  else location.href="/chat.html";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "chat-moderator",
+  "version": "1.0.0",
+  "description": "Simple chat app with automatic moderation",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.8.1"
+  }
+}

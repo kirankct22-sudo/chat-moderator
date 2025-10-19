@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatSafe — Chat</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+<header>
+<h2>ChatSafe</h2>
+<button id="logout">Logout</button>
+</header>
+<section id="messagesArea" class="card"></section>
+<form id="sendForm" class="composer">
+  <input id="messageInput" placeholder="Type a message..." autocomplete="off" />
+  <button>Send</button>
+</form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const user = JSON.parse(sessionStorage.getItem("chatUser")||"{}");
+if(!user.username) location.href="/";
+
+const socket = io();
+const messagesArea = document.getElementById("messagesArea");
+const form = document.getElementById("sendForm");
+const input = document.getElementById("messageInput");
+
+socket.on("messages", msgs=>{
+  messagesArea.innerHTML = msgs.map(m=>`<div class="message"><b>${m.username}</b> <span class="time">${new Date(m.createdAt).toLocaleTimeString()}</span><div>${escapeHtml(m.text)}</div></div>`).join("");
+});
+socket.on("flagged:you", data=>alert("Your message was flagged for: "+data.reason));
+
+form.addEventListener("submit", e=>{
+  e.preventDefault();
+  const text = input.value.trim();
+  if(!text) return;
+  socket.emit("sendMessage",{username:user.username,text});
+  input.value="";
+});
+
+document.getElementById("logout").addEventListener("click", ()=>{sessionStorage.removeItem("chatUser");location.href="/";});
+
+function escapeHtml(unsafe){return unsafe.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m]);}
+</script>
+</body>
+</html>
